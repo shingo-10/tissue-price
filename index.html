@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tissue Price Pro | 瞬間価格比較ツール</title>
+    <meta name="description" content="ドラッグストアでティッシュの価格を瞬時に計算し、過去のデータと比較するスマートツール。">
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- PWA Settings -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4361ee">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="app-container">
+        <header class="app-header">
+            <h1 id="app-title">Tissue Price <span class="accent">Pro</span></h1>
+            <p class="subtitle">お買い得かどうか、瞬時に判定。</p>
+        </header>
+
+        <section class="calc-section glass-card">
+            <div class="input-grid">
+                <div class="input-group">
+                    <label for="sheets-select">1箱の組数 (W)</label>
+                    <div class="input-wrapper">
+                        <select id="sheets-select">
+                            <option value="150">150組</option>
+                            <option value="180">180組</option>
+                            <option value="200" selected>200組</option>
+                            <option value="220">220組</option>
+                            <option value="custom">カスタム（入力する）</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- カスタム入力用（初期は非表示） -->
+                <div id="custom-sheets-group" class="input-group hide">
+                    <label for="sheets-per-box">カスタム組数</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="sheets-per-box" placeholder="200" min="1">
+                        <span class="unit">組</span>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="box-select">箱数</label>
+                    <div class="input-wrapper">
+                        <select id="box-select">
+                            <option value="5" selected>5箱</option>
+                            <option value="10">10箱</option>
+                            <option value="custom">カスタム（入力する）</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- カスタム入力用（初期は非表示） -->
+                <div id="custom-boxes-group" class="input-group hide">
+                    <label for="box-count">カスタム箱数</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="box-count" placeholder="5" min="1">
+                        <span class="unit">箱</span>
+                    </div>
+                </div>
+                <div class="input-group full-width">
+                    <label for="total-price">商品価格</label>
+                    <div class="input-wrapper price-wrapper">
+                        <span class="currency">¥</span>
+                        <input type="number" id="total-price" placeholder="498" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="toggle-group">
+                <span class="toggle-label">税抜き</span>
+                <label class="switch">
+                    <input type="checkbox" id="tax-included" checked>
+                    <span class="slider round"></span>
+                </label>
+                <span class="toggle-label">税込み</span>
+            </div>
+
+            <div id="result-display" class="result-area">
+                <div class="result-label">1組あたりの価格</div>
+                <div id="unit-price" class="unit-price">---</div>
+                <div id="verdict" class="verdict-badge">入力待ち</div>
+            </div>
+
+            <button id="save-btn" class="primary-btn" disabled>この価格を保存する</button>
+        </section>
+
+        <section class="history-section">
+            <h2>最近の履歴</h2>
+            <div id="history-list" class="history-list">
+                <p class="empty-msg">まだ履歴がありません。</p>
+            </div>
+            <button id="clear-history" type="button" class="text-btn">履歴をクリア</button>
+        </section>
+
+        <section class="analytics-section glass-card">
+            <h2>価格推移分析</h2>
+            <div class="chart-container">
+                <canvas id="priceChart"></canvas>
+            </div>
+            <div id="history-summary" class="history-summary">
+                <div class="stat-item">
+                    <span class="stat-label">過去最安値</span>
+                    <span id="best-price" class="stat-value">---</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">平均価格</span>
+                    <span id="avg-price" class="stat-value">---</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 削除確認カスタムモーダル -->
+    <div id="modal-overlay" class="modal-overlay hide">
+        <div class="modal-content glass-card">
+            <h3>履歴をクリアしますか？</h3>
+            <p>保存されたすべての価格データとグラフの履歴が完全に削除されます。この操作は取り消せません。</p>
+            <div class="modal-actions">
+                <button id="cancel-clear" class="secondary-btn">キャンセル</button>
+                <button id="confirm-clear" class="danger-btn">削除する</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(reg => console.log('Service Worker registered!'))
+                    .catch(err => console.log('Service Worker failed: ', err));
+            });
+        }
+    </script>
+</body>
+</html>

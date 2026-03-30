@@ -1,0 +1,21 @@
+{
+  "name": "Tissue Price Pro",
+  "short_name": "TissuePrice",
+  "description": "ドラッグストアでティッシュの価格を瞬時に比較するスマートツール",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f8f9fa",
+  "theme_color": "#4361ee",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
