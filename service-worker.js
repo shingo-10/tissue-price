@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tissue-price-v1';
+const CACHE_NAME = 'shopping-calc-v4';
 const ASSETS = [
     './',
     './index.html',

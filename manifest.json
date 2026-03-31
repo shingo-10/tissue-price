@@ -1,11 +1,11 @@
 {
-  "name": "Tissue Price Pro",
-  "short_name": "TissuePrice",
-  "description": "ドラッグストアでティッシュの価格を瞬時に比較するスマートツール",
+  "name": "Shopping Calc Pro",
+  "short_name": "ShopCalc",
+  "description": "ドラッグストアなどでティッシュやトイレットペーパーの単価を瞬時に比較するスマートツール",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f8f9fa",
-  "theme_color": "#4361ee",
+  "background_color": "#f0f4f8",
+  "theme_color": "#2b5876",
   "icons": [
     {
       "src": "icons/icon-192.png",

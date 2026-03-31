@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tissue Price Pro | 瞬間価格比較ツール</title>
-    <meta name="description" content="ドラッグストアでティッシュの価格を瞬時に計算し、過去のデータと比較するスマートツール。">
+    <title>Shopping Calc Pro | 瞬間価格比較ツール</title>
+    <meta name="description" content="ドラッグストアでティッシュやトイレットペーパーの価格を瞬時に計算・比較するスマートツール。">
     <!-- Google Fonts: Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,50 +28,126 @@
 
     <main class="app-container">
         <header class="app-header">
-            <h1 id="app-title">Tissue Price <span class="accent">Pro</span></h1>
+            <h1 id="app-title">Shopping Calc <span class="accent">Pro</span></h1>
             <p class="subtitle">お買い得かどうか、瞬時に判定。</p>
         </header>
 
-        <section class="calc-section glass-card">
+        <div class="main-calc-container">
+            <nav class="tabs">
+                <button class="tab-btn active" data-tab="tissue">ティッシュ</button>
+                <button class="tab-btn" data-tab="toilet-paper">トイレットペーパー</button>
+            </nav>
+
+            <section class="calc-section glass-card">
+            <!-- ティッシュ用入力 -->
+            <div id="tissue-inputs" class="tab-pane active">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="sheets-select">1箱の組数 (W)</label>
+                        <div class="input-wrapper">
+                            <select id="sheets-select">
+                                <option value="150">150組</option>
+                                <option value="180">180組</option>
+                                <option value="200" selected>200組</option>
+                                <option value="220">220組</option>
+                                <option value="custom">カスタム（入力する）</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="custom-sheets-group" class="input-group hide">
+                        <label for="sheets-per-box">カスタム組数</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="sheets-per-box" placeholder="200" min="1">
+                            <span class="unit">組</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="box-select">箱数</label>
+                        <div class="input-wrapper">
+                            <select id="box-select">
+                                <option value="5" selected>5箱</option>
+                                <option value="10">10箱</option>
+                                <option value="custom">カスタム（入力する）</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="custom-boxes-group" class="input-group hide">
+                        <label for="box-count">カスタム箱数</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="box-count" placeholder="5" min="1">
+                            <span class="unit">箱</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- トイレットペーパー用入力 -->
+            <div id="tp-inputs" class="tab-pane">
+                <div class="input-grid">
+                    <div class="input-group">
+                        <label for="tp-rolls-select">ロール数</label>
+                        <div class="input-wrapper">
+                            <select id="tp-rolls-select">
+                                <option value="4">4ロール</option>
+                                <option value="8">8ロール</option>
+                                <option value="12" selected>12ロール</option>
+                                <option value="18">18ロール</option>
+                                <option value="custom">カスタム</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="custom-tp-rolls-group" class="input-group hide">
+                        <label for="tp-rolls-input">カスタムロール数</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="tp-rolls-input" placeholder="12" min="1">
+                            <span class="unit">ロール</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="tp-meters-select">1ロールの長さ</label>
+                        <div class="input-wrapper">
+                            <select id="tp-meters-select">
+                                <option value="25">25m</option>
+                                <option value="30">30m</option>
+                                <option value="50" selected>50m</option>
+                                <option value="75">75m</option>
+                                <option value="custom">カスタム</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="custom-tp-meters-group" class="input-group hide">
+                        <label for="tp-meters-input">カスタム長さ</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="tp-meters-input" placeholder="50" min="1">
+                            <span class="unit">m</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="tp-multiplier">倍巻設定</label>
+                        <div class="input-wrapper">
+                            <select id="tp-multiplier">
+                                <option value="1" selected>通常 (1倍)</option>
+                                <option value="1.5">1.5倍巻</option>
+                                <option value="2">2倍巻</option>
+                                <option value="2.5">2.5倍巻</option>
+                                <option value="3">3倍巻</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="tp-type">タイプ</label>
+                        <div class="input-wrapper">
+                            <select id="tp-type">
+                                <option value="double" selected>ダブル</option>
+                                <option value="single">シングル</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 共通：価格入力 -->
             <div class="input-grid">
-                <div class="input-group">
-                    <label for="sheets-select">1箱の組数 (W)</label>
-                    <div class="input-wrapper">
-                        <select id="sheets-select">
-                            <option value="150">150組</option>
-                            <option value="180">180組</option>
-                            <option value="200" selected>200組</option>
-                            <option value="220">220組</option>
-                            <option value="custom">カスタム（入力する）</option>
-                        </select>
-                    </div>
-                </div>
-                <!-- カスタム入力用（初期は非表示） -->
-                <div id="custom-sheets-group" class="input-group hide">
-                    <label for="sheets-per-box">カスタム組数</label>
-                    <div class="input-wrapper">
-                        <input type="number" id="sheets-per-box" placeholder="200" min="1">
-                        <span class="unit">組</span>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="box-select">箱数</label>
-                    <div class="input-wrapper">
-                        <select id="box-select">
-                            <option value="5" selected>5箱</option>
-                            <option value="10">10箱</option>
-                            <option value="custom">カスタム（入力する）</option>
-                        </select>
-                    </div>
-                </div>
-                <!-- カスタム入力用（初期は非表示） -->
-                <div id="custom-boxes-group" class="input-group hide">
-                    <label for="box-count">カスタム箱数</label>
-                    <div class="input-wrapper">
-                        <input type="number" id="box-count" placeholder="5" min="1">
-                        <span class="unit">箱</span>
-                    </div>
-                </div>
                 <div class="input-group full-width">
                     <label for="total-price">商品価格</label>
                     <div class="input-wrapper price-wrapper">
@@ -91,13 +167,15 @@
             </div>
 
             <div id="result-display" class="result-area">
-                <div class="result-label">1組あたりの価格</div>
+                <div class="result-label" id="result-label">1組あたりの価格</div>
                 <div id="unit-price" class="unit-price">---</div>
                 <div id="verdict" class="verdict-badge">入力待ち</div>
+                <div id="price-compare" class="compare-badge hide"></div>
             </div>
 
             <button id="save-btn" class="primary-btn" disabled>この価格を保存する</button>
         </section>
+    </div>
 
         <section class="history-section">
             <h2>最近の履歴</h2>

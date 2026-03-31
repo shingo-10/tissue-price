@@ -105,6 +105,7 @@ body {
 .accent {
     background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -129,6 +130,69 @@ body {
     font-weight: 600;
     margin-bottom: 1.5rem;
     color: var(--secondary-color);
+}
+
+/* Main Calculation Container */
+.main-calc-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    padding: 6px;
+    border-radius: 20px 20px 0 0;
+    border: 1px solid var(--border-color);
+    border-bottom: none;
+    position: relative;
+    z-index: 10;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border-radius: 14px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.tab-btn.active {
+    background: white;
+    color: var(--primary-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.calc-section.glass-card {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.tab-pane {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* Input Styles */
@@ -300,6 +364,25 @@ input:checked + .slider:before { transform: translateX(24px); }
 .verdict-cheap { background: var(--success-color); color: white; }
 .verdict-normal { background: var(--warning-color); color: #856404; }
 .verdict-expensive { background: var(--danger-color); color: white; }
+
+.compare-badge {
+    margin-top: 0.8rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.compare-badge span {
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    background: rgba(0, 129, 167, 0.1);
+}
+
+.compare-badge.hide { display: none; }
 
 /* Buttons */
 .primary-btn {
